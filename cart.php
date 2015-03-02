@@ -43,20 +43,21 @@ if (isset($_GET["id"])) {
             echo "<br>Finns, position: ";
             var_dump($i);
             $addToCart = false;
-            
+
 //            echo "<br>ja: ";
 //            var_dump($_SESSION["cart"][$i]);
-$total = $_SESSION["cart"][$i]["amount"] + $_GET["amount"];
+            $total = $_SESSION["cart"][$i]["amount"] + $_GET["amount"];
+            $totAmount = $_GET["amount"];
             foreach ($totalQuantity as $q) {
                 foreach ($q as $que) {
                     echo "<br>antal i db: ";
                     echo "<br>" . $que;
-                    if ($total > $que) {
+                    if ($total > $que || $_GET["amount"] > $que) {
                         echo "<br>du försöker köpa " . $_SESSION["cart"][$i]["amount"] . " produkter. I databasen finns " . $que . " produkter";
-                        
+
                         $addToCart = false;
                     } else {
-                        $addToCart = false;
+                        $addToCart = true;
                         $_SESSION["cart"][$i]["amount"] = $_SESSION["cart"][$i]["amount"] + $_GET["amount"];
                     }
                 }
@@ -248,7 +249,25 @@ var_dump($_SESSION);
                 echo " ";
                 echo $item;
             }
+            
             echo "<br>";
+            echo "<form method='GET'>";
+            echo "<input type='hidden' value='" . $product["id"] . "' name='id'>";
+            echo "<input type='submit' name='action' value='delete'>";
+            echo "</form>";
+
+            if (isset($_GET["action"])) {
+                for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
+                    if ($_GET["action"] == "delete") {
+
+                        if ($_SESSION["cart"][$i]["id"] == $product["id"]) {
+                            unset($_SESSION["cart"][$i]);
+                        }
+
+                        header("Location: cart.php");
+                    }
+                }
+            }
         }
         echo "</p>";
         ?>
