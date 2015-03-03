@@ -249,25 +249,14 @@ var_dump($_SESSION);
                 echo " ";
                 echo $item;
             }
-            
+
             echo "<br>";
-            echo "<form method='GET'>";
-            echo "<input type='hidden' value='" . $product["id"] . "' name='id'>";
+            echo "<form method='GET' action='deleteFromCart.php'>";
+            echo "<input type='hidden' value='" . $cart["id"] . "' name='id'>";
             echo "<input type='submit' name='action' value='delete'>";
             echo "</form>";
 
-            if (isset($_GET["action"])) {
-                for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
-                    if ($_GET["action"] == "delete") {
-
-                        if ($_SESSION["cart"][$i]["id"] == $product["id"]) {
-                            unset($_SESSION["cart"][$i]);
-                        }
-
-                        header("Location: cart.php");
-                    }
-                }
-            }
+            
         }
         echo "</p>";
         ?>
@@ -275,6 +264,3 @@ var_dump($_SESSION);
         <a href="killCart.php">Delete all</a>
     </body>
 </html>
-<?php
-exit();
-?>
