@@ -57,7 +57,7 @@ if (isset($_GET["id"])) {
 
                         $addToCart = false;
                     } else {
-                        $addToCart = true;
+                        $addToCart = false;
                         $_SESSION["cart"][$i]["amount"] = $_SESSION["cart"][$i]["amount"] + $_GET["amount"];
                     }
                 }
